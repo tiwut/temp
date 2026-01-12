@@ -1,10 +1,27 @@
-let Tempm = 0
-let Tempp = 0
+input.onButtonPressed(Button.A, function () {
+    SCHWELLENWERT = SCHWELLENWERT - 2
+    basic.clearScreen()
+    basic.showNumber(SCHWELLENWERT)
+    basic.pause(500)
+    basic.clearScreen()
+    Tempm += 0
+})
+input.onButtonPressed(Button.B, function () {
+    SCHWELLENWERT = SCHWELLENWERT + 2
+    basic.clearScreen()
+    basic.showNumber(SCHWELLENWERT)
+    basic.pause(500)
+    basic.clearScreen()
+    Tempp += 0
+})
 let Sound_ONOFF = 0
 let temperatur = 0
 let aktuellerWert = 0
+let Tempp = 0
+let Tempm = 0
+let SCHWELLENWERT = 0
 let ADC_REFERENZ = 290
-let SCHWELLENWERT = 20
+SCHWELLENWERT = 20
 basic.forever(function () {
     aktuellerWert = pins.analogReadPin(AnalogPin.P0)
     temperatur = 20 + (ADC_REFERENZ - aktuellerWert) / 10
@@ -27,22 +44,4 @@ basic.forever(function () {
 })
 basic.forever(function () {
     Sound_ONOFF += pins.digitalReadPin(DigitalPin.P12)
-    Tempp += pins.digitalReadPin(DigitalPin.P13)
-    Tempm += pins.digitalReadPin(DigitalPin.P14)
-})
-basic.forever(function () {
-    if (Tempp == 1) {
-        SCHWELLENWERT = SCHWELLENWERT + 2
-        basic.showNumber(SCHWELLENWERT)
-        basic.pause(500)
-        basic.clearScreen()
-        Tempp += 0
-    }
-    if (Tempm == 1) {
-        SCHWELLENWERT = SCHWELLENWERT - 2
-        basic.showNumber(SCHWELLENWERT)
-        basic.pause(500)
-        basic.clearScreen()
-        Tempm += 0
-    }
 })
