@@ -1,0 +1,48 @@
+let Tempm = 0
+let Tempp = 0
+let Sound_ONOFF = 0
+let temperatur = 0
+let aktuellerWert = 0
+let ADC_REFERENZ = 290
+let SCHWELLENWERT = 20
+basic.forever(function () {
+    aktuellerWert = pins.analogReadPin(AnalogPin.P0)
+    temperatur = 20 + (ADC_REFERENZ - aktuellerWert) / 10
+    if (temperatur < 20) {
+        pins.digitalWritePin(DigitalPin.P1, 0)
+        pins.digitalWritePin(DigitalPin.P2, 1)
+        if (Sound_ONOFF == 1) {
+            pins.analogWritePin(AnalogPin.P0, 988)
+        } else {
+            pins.analogWritePin(AnalogPin.P0, 0)
+        }
+        basic.showIcon(IconNames.Sad)
+    } else {
+        pins.digitalWritePin(DigitalPin.P1, 1)
+        pins.digitalWritePin(DigitalPin.P2, 0)
+        pins.analogWritePin(AnalogPin.P0, 0)
+        basic.showIcon(IconNames.Happy)
+    }
+    basic.pause(500)
+})
+basic.forever(function () {
+    Sound_ONOFF += pins.digitalReadPin(DigitalPin.P12)
+    Tempp += pins.digitalReadPin(DigitalPin.P13)
+    Tempm += pins.digitalReadPin(DigitalPin.P14)
+})
+basic.forever(function () {
+    if (Tempp == 1) {
+        SCHWELLENWERT = SCHWELLENWERT + 2
+        basic.showNumber(SCHWELLENWERT)
+        basic.pause(500)
+        basic.clearScreen()
+        Tempp += 0
+    }
+    if (Tempm == 1) {
+        SCHWELLENWERT = SCHWELLENWERT - 2
+        basic.showNumber(SCHWELLENWERT)
+        basic.pause(500)
+        basic.clearScreen()
+        Tempm += 0
+    }
+})
