@@ -1,0 +1,49 @@
+let NTCValueLive = 0
+let Tempm = 0
+let Tempp = 0
+let NTCValue = 250
+basic.forever(function on_forever() {
+    
+    if (Tempp == 1) {
+        NTCValue = NTCValue + 2
+        Tempp = 0
+        basic.clearScreen()
+        basic.showNumber(NTCValue)
+        basic.clearScreen()
+        basic.pause(500)
+        pins.digitalWritePin(DigitalPin.P13, 0)
+    } else {
+        
+    }
+    
+    if (Tempm == 1) {
+        NTCValue = NTCValue - 2
+        Tempm = 0
+        basic.clearScreen()
+        basic.showNumber(NTCValue)
+        basic.clearScreen()
+        basic.pause(500)
+        pins.digitalWritePin(DigitalPin.P14, 0)
+    } else {
+        
+    }
+    
+})
+basic.forever(function on_forever2() {
+    
+    NTCValueLive = pins.analogReadPin(AnalogPin.P0)
+    Tempp = pins.digitalReadPin(DigitalPin.P13)
+    Tempm = pins.digitalReadPin(DigitalPin.P14)
+})
+basic.forever(function on_forever3() {
+    if (NTCValue < NTCValueLive) {
+        pins.digitalWritePin(DigitalPin.P1, 0)
+        pins.digitalWritePin(DigitalPin.P2, 1)
+        pins.digitalWritePin(DigitalPin.P3, 1)
+    } else {
+        pins.digitalWritePin(DigitalPin.P1, 1)
+        pins.digitalWritePin(DigitalPin.P2, 0)
+        pins.digitalWritePin(DigitalPin.P3, 0)
+    }
+    
+})
